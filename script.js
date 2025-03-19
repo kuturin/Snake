@@ -1,5 +1,7 @@
 let canvas = document.getElementById('game');
 let context = canvas.getContext('2d');
+let score = document.getElementById('score');
+let highscore = document.getElementById('best-score');
 
 // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
 // (e.g. 16 * 25 = 400)
@@ -75,6 +77,8 @@ function getRandomInt(min, max) {
     // draw apple
     context.fillStyle = 'red';
     context.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+   
   
     // draw snake one cell at a time
     context.fillStyle = 'green';
@@ -86,6 +90,17 @@ function getRandomInt(min, max) {
       // snake ate apple
       if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
+        score.innerHTML = snake.maxCells - 4;
+        if (parseInt(score.innerHTML) >= parseInt(highscore.innerHTML)) {
+          highscore.innerHTML = score.innerHTML;
+        }
+        else {
+            highscore.innerHTML = highscore.innerHTML;
+        }
+        
+    
+        
+
   
         // canvas is 400x400 which is 25x25 grids
         apple.x = getRandomInt(0, 25) * grid;
@@ -103,6 +118,7 @@ function getRandomInt(min, max) {
           snake.maxCells = 4;
           snake.dx = grid;
           snake.dy = 0;
+          score.innerHTML = 0;
   
           apple.x = getRandomInt(0, 25) * grid;
           apple.y = getRandomInt(0, 25) * grid;
